@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Inventory System</title>
+
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="topbar">
+        <div class="topbar-logo">Coffee Stock Management</div>
+
+        <div class="logout-box">
+            <a href="{{ url_for('login') }}" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <div>
+            <div class="hero-title">
+                RAW <span class="accent">MATS</span>
+            </div>
+            <p class="hero-text">
+                Track · Manage · Restock
+            </p>
+        </div>
+    </div>
+
+    <div class="toolbar">
+
+        <a href="{{ url_for('add_product') }}" class="btn-add">
+            <i class="fa-solid fa-plus"></i>
+            Add Product
+        </a>
+
+        <div class="search-wrap">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search product...">
+        </div>
+
+    </div>
+
+    <div class="table-wrap">
+
+        <table class="inv-table" id="productTable">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            {% for product in products %}
+                <tr>
+                    <td>{{ product[0] }}</td>
+                    <td>{{ product[1] }}</td>
+                    <td>{{ product[2] }}</td>
+                    <td>₱{{ product[3] }}</td>
+                    <td class="action-box">
+
+                        <a href="{{ url_for('edit_product', id=product[0]) }}"
+                           class="btn-edit">
+                           Edit
+                        </a>
+
+                        <a href="{{ url_for('delete_product', id=product[0]) }}"
+                           class="btn-del"
+                           onclick="return confirmDelete()">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">
+                        <div class="empty-state">
+                            <div class="big">NO STOCK</div>
+                            <p>Add your first product.</p>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
